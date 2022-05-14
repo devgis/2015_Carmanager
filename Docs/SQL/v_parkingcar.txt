@@ -1,0 +1,10 @@
+create view v_parkingcar as
+select `pc`.`id` AS `id`,`pc`.`parkingid` AS `parkingid`,`pc`.`memberid` AS `memberid`,
+`pc`.`carno` AS `carno`,`pc`.`entertime` AS `entertime`,`pc`.`operatorid` AS `operatorid`,
+`pc`.`sentryboxid` AS `sentryboxid`,`m`.`realname` AS `membername`,`m`.`mobile` AS `mobile`,`p`.`realname` AS `operatorname` ,
+c.trademark,c.parkingtype,c.color,ct.typename
+from ((`t_parkingcar` `pc` 
+left join `t_member` `m` on((`pc`.`memberid` = `m`.`id`))) 
+left join `t_operator` `p` on((`pc`.`operatorid` = `p`.`id`)))
+left join t_car c on pc.carno=c.carno
+left join t_cartype ct on c.typeid=ct.id

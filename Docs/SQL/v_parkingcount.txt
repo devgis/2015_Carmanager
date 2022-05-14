@@ -1,0 +1,6 @@
+create view v_parkingcount as
+select id as parkingid,'total' as title,spacecount as counts from t_parking
+union
+select parkingid,'reserved' as title,count(parkingid) as counts from t_reserved group by parkingid
+union
+select parkingid,'parkinged' as title,count(parkingid) as counts from t_parkingcar group by parkingid

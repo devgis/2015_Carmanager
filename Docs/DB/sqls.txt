@@ -1,0 +1,29 @@
+停车场报表 select zone 地区,count(zone) as 数量 from t_parking group by zone
+收费报表 select parkingname as 停车场,carno as 车牌号,amount as 收费金额  from v_parkingcarlog where operatortime between '{0}' and '{1}'
+车流量报表 select parkingname as 停车场,count(parkingname) as 车流量  from v_parkingcarlog group by parkingname where operatortime between '{0}' and '{1}'
+操作员收费报表 select operatorname as 操作员,sum(amount) as 收费金额  from v_parkingcarlog group by operatorname where operatortime between '{0}' and '{1}'
+会员报表 
+select '会员总数' as 项目,count(*) as 数量 from t_operator
+union
+select '车辆总数' as 项目,count(*) as 数量 from t_car
+union
+select '充值总金额' as 项目, sum(amount) as 数量 from t_rechargehistory
+
+
+车辆明细
+手动开闸记录
+在场明细
+异常情况
+
+
+
+2b9101a0-ba4e-41ce-9a51-f3681fb4e0cf
+2b9101a0-ba4e-41ce-9a51-f3681fb4e0cf
+
+0c885fb4-de36-4a30-a96a-ba1ef98a493a
+
+
+UNIX_TIMESTAMP 172800
+select carno,'只进未出' as ExceptionType,entertime from t_parkingcar where UNIX_TIMESTAMP(now())-UNIX_TIMESTAMP(entertime)>=172800
+union
+select carno,'多停车场' as ExceptionType,entertime from t_parkingcar where carno in (select carno from (select carno,count(parkingid) as parkcount from t_parkingcar group by carno) t where t.parkcount>1)

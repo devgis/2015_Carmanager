@@ -1,0 +1,3 @@
+t_openlog 手动开闸记录
+ismanual 0自动 1手动
+opentype 0进 1出
